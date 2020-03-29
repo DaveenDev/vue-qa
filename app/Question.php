@@ -21,7 +21,7 @@ class Question extends Model
     }
 
     public function getUrlAttribute(){
-        return route('questions.show',$this->id);
+        return route('questions.show',$this->slug); //return the attribute slug for the $question->url field
     }
 
     public function getCreatedDateAttribute(){
@@ -37,4 +37,9 @@ class Question extends Model
         }
         return "unanswered";
     }
+
+    public function getBodyHtmlAttribute(){
+       return  \Parsedown::instance()->text($this->body);
+    }
+
 }

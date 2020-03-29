@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
+use App\Question;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -30,7 +31,12 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        //this code allow to accept slug as parameter and find that slug in the questions table
+        Route::bind('slug',function($slug){
+           return Question::where('slug',$slug)->first() ?? abort(404); //shortcut version
+            //another way is
+            //return $question ? $question : abort(404);  this means show question data or error page 404
+        });
 
         parent::boot();
     }
