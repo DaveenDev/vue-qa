@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Question;
 use Illuminate\Http\Request;
+use App\Http\Requests\AskQuestionRequest;
 
 class QuestionsController extends Controller
 {
@@ -41,9 +42,25 @@ class QuestionsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AskQuestionRequest $request)
     {
-        //
+        //$validator = Validator::make($request->all(), [
+        //    'title' => 'required|unique:posts|max:150',
+        //    'body' => 'required|max:255',
+       // ]);
+
+        $request->user()->questions()->create($request->all()); //$request->only('title','body') if you want specific columns to add
+        
+        /*LONG METHOD
+            $user = auth()->user();
+
+            $newQ=new Question();
+            $newQ->title=$request->title;
+            $newQ->body=$request->body;
+            $newQ->user_id=$user->id;
+            $newQ->save();
+        */
+        return redirect()->route('questions.index')->with('success','Your question has been submitted');
     }
 
     /**
