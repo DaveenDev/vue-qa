@@ -34,14 +34,18 @@
                             <div class="media-body">
                                 <div class="d-flex align-items-center">
                                     <h3 class="mt-0"> <a href="{{$q->url}}">{{$q->title}}</a></h3>
-                                    <div class="ml-auto">
-                                        <a href="{{route('questions.edit',$q->id)}}" class="btn btn-sm btn-outline-info"> Edit</a>
-                                    <form class="form-delete " method="post" action="{{route('questions.destroy',$q->id)}}">
-                                            @method('DELETE')
-                                            @csrf
-                                        <button type="Submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure?')">Delete</button>
-                                    </form>
-                                    </div>
+                                    @if(Gate::allows('update-question',$q))
+                                        <div class="ml-auto">
+                                            
+                                            <a href="{{route('questions.edit',$q->id)}}" class="btn btn-sm btn-outline-info"> Edit</a>
+                                        
+                                            <form class="form-delete " method="post" action="{{route('questions.destroy',$q->id)}}">
+                                                @method('DELETE')
+                                                @csrf
+                                            <button type="Submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure?')">Delete</button>
+                                        </form>
+                                        </div>
+                                    @endif
                                 </div>      
                             
                             <p class="lead">
