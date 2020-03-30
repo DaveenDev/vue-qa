@@ -29,7 +29,7 @@ class Question extends Model
     }
 
     public function getStatusAttribute(){
-        if ($this->answers>0){
+        if ($this->answers_count>0){
             if($this->best_answer_id){
                 return "answer-accepted";
             }
@@ -42,4 +42,8 @@ class Question extends Model
        return  \Parsedown::instance()->text($this->body);
     }
 
+    //define question - answer relationship
+    public function answers(){
+        return $this->hasMany(Answer::class);
+    }
 }
