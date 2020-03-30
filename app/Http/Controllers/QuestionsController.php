@@ -8,6 +8,11 @@ use App\Http\Requests\AskQuestionRequest;
 
 class QuestionsController extends Controller
 {
+
+    public function _construct(){
+        $this->middleware('auth',['except'=>'index','show']);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -83,9 +88,13 @@ class QuestionsController extends Controller
      */
     public function edit(Question $question)
     {
+        /* using gates to authorize update
         if (\Gate::denies('update-question',$question)){ //or \Gate::a
             abort(403,"Access Denied");
-        }
+        } 
+        */
+        $this->authorize('update',$question);
+
         return view("questions.edit",compact('question'));
     }
 
