@@ -36,5 +36,8 @@ class AnswerPolicy
         return $user->id===$answer->user_id;
     }
 
-   
+    public function acceptbestanswer(User $user, Answer $answer)
+    {
+        return $user->id===$answer->question->user_id;
+    }
 }
