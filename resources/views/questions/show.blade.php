@@ -25,10 +25,20 @@
                         <a title="This question is not useful" class="vote-down off">
                             <i class="fa fa-caret-down fa-2x"></i>
                         </a>
-                        <a title="Click to mark as favorite question (click again to undo)" class="favorite mt-2 favorited">
-                            <i class="fa fa-star fa-lg"></i>
-                            <span class="favorites-count">3</span>
+                        <a title="Click to mark as favorite question (click again to undo)" 
+                            onclick="event.preventDefault(); document.getElementById('fav-question-{{$question->id}}').submit();"
+                            class="favorite mt-2 {{ Auth::guest() ? 'off' : ($question->is_favorited ? 'favorited' : '') }}"
+                            >
+                            <i class="fa fa-star fa-2x"></i>
+                            <span class="favorites-count">{{$question->favorites_count}}</span>
+                    
                         </a>
+                        <form id="fav-question-{{$question->id}}" method="Post" action="/questions/{{$question->id}}/favorites" style="display: none">
+                            @csrf
+                            @if($question->is_Favorited)
+                                @method('Delete')
+                            @endif  
+                        </form>
                     </div>
                 <div class="media-body">
                    {!! $question->body_html !!}

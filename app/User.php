@@ -46,6 +46,10 @@ class User extends Authenticatable
         return $this->hasMany(Answer::class);
     }
 
+    public function favorites(){
+        return $this->belongsToMany(App\Question::class,'favorites','user_id','question_id')->withTimeStamps();
+    }
+
     //AcCessors
     public function getUrlAttribute(){
         //return route('questions.show',$this->id);
@@ -58,4 +62,6 @@ class User extends Authenticatable
         return "https://www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?s=" . $size;
 
     }
+
+
 }
