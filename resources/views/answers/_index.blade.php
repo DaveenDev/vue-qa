@@ -11,13 +11,27 @@
                     @foreach($answers as $answer)
                     <div class="media">
                         <div class="d-flex flex-column vote-controls">
-                            <a title="This answer is useful" class="vote-up">
+                            <a title="This answer is useful" 
+                                class="vote-up {{Auth::guest() ? 'off':''}}"
+                                onclick="event.preventDefault(); document.getElementById('up-vote-answer-{{$answer->id}}').submit()"
+                                >
                                 <i class="fa fa-caret-up fa-2x"></i>
                             </a>
-                            <span class="votes-count">4</span>
-                            <a title="This answer is not useful" class="vote-down off">
+                            <form id="up-vote-answer-{{$answer->id}}" method="Post" action="/answers/{{$answer->id}}/vote" style="display: none">
+                                @csrf
+                                <input type="hidden" name="vote" value="1">
+                            </form>
+                        <span class="votes-count">{{$answer->votes_count}}</span>
+                            <a title="This answer is not useful" 
+                                class="vote-down {{Auth::guest() ? 'off':''}}"
+                                onclick="event.preventDefault(); document.getElementById('down-vote-answer-{{$answer->id}}').submit()"
+                                >
                                 <i class="fa fa-caret-down fa-2x"></i>
                             </a>
+                            <form id="down-vote-answer-{{$answer->id}}" method="Post" action="/answers/{{$answer->id}}/vote" style="display: none">
+                                @csrf
+                                <input type="hidden" name="vote" value="-1">
+                            </form>
                             @can('acceptbestanswer',$answer)
                                 <a title="Mark this as Best Answer" 
                                     class="{{$answer->status}} mt-2 "

@@ -21,6 +21,12 @@ class Question extends Model
         return $this->belongsToMany(User::class,'favorites','question_id','user_id')->withTimeStamps();
     }
 
+    public function votes()
+    {
+        return $this->morphToMany(User::class,'votable'); //make the 2nd argument in singular form Eloquent recognize the table is votables
+    }
+
+
     //Mutators
     public function setTitleAttribute($value)
     {
@@ -74,6 +80,18 @@ class Question extends Model
     public function getFavoritesCountAttribute()
     {
         return $this->favorites->count();
+    }
+
+    public function upVotes()
+    {
+        return $this->votes()->wherePivot('vote',1); //return the collection of votes +1
+         
+    }
+
+    public function downVotes()
+    {
+        return $this->votes()->wherePivot('vote',-1); //return the collection of votes -1
+        
     }
   
 }

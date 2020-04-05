@@ -70,7 +70,7 @@ display: inline;
         }
         &.favorite{
             &.favorited, &.favorited:hover{
-                color: $warning;
+                color: $orange;
             }
         }
 

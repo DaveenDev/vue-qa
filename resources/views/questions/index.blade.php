@@ -22,13 +22,13 @@
                         <div class="media">
                             <div class="d-flex flex-column counters">
                                 <div class="vote">
-                                    <strong>{{$q->votes}}</strong>{{Str::plural('vote',$q->vote)}}
+                                    <strong>{{$q->votes_count}}</strong>{{Str::plural('vote',$q->votes_count)}}
                                 </div>
                             <div class="status {{$q->status}}">
-                                    <strong>{{$q->answers_count}}</strong>{{Str::plural('answers',$q->vote)}}
+                                    <strong>{{$q->answers_count}}</strong>{{Str::plural('answers',$q->answers_count)}}
                                 </div>
                                 <div class="view">
-                                    {{$q->views . " " . Str::plural('views',$q->vote)}}
+                                    {{$q->views . " " . Str::plural('views',$q->views)}}
                                 </div>
                             </div>
                             <div class="media-body">
