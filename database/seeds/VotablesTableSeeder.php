@@ -30,7 +30,7 @@ class VotablesTableSeeder extends Seeder
 
         \DB::table('votables')->where('votable_type','App\Answer')->delete();
 
-        $users=User::all();
+        $users=User::pluck('id')->all();
         $usersCounts=$users->count();
         $votes=[-1,1]; //vote[0] = -1 downvote / [1] is upvote
         foreach(Answer::all() as $answer)

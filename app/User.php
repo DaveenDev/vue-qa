@@ -101,6 +101,7 @@ class User extends Authenticatable
         $answer->load('votes'); //refresh the field value
         $up=(int) $answer->upVotes()->sum('vote');
         $down=(int) $answer->downVotes()->sum('vote');
+        dd('up' . $up . ' down' .$down);
         $answer->votes_count=$up+$down;
         $answer->save(); 
     }

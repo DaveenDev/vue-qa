@@ -13,7 +13,7 @@ class VotesController extends Controller
         $this->middleware('auth');
     }
 
-    public function votequestion(Question $question)
+    public function vote_question(Question $question)
     {
         $vote =(int) request()->vote;
        
@@ -21,10 +21,9 @@ class VotesController extends Controller
         return back();
     }
 
-    public function voteanswer(Answer $answer)
+    public function vote_answer(Answer $answer)
     {
         $vote =(int) request()->vote;
-       
         auth()->user()->voteAnswer($answer,$vote);
         return back();
     }
