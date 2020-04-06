@@ -30,8 +30,8 @@
                             <span class="favorites-count">3</span>
                         </a>
                     </div>
-                <div class="media-body">
-                   {!! $question->body_html !!}
+                    <div class="media-body">
+                        {!! $question->body_html !!}
                    
                         @if(Gate::allows('update-question',$question))
                             <a href="{{route('questions.edit',$question->id)}}" class="btn btn-sm btn-outline-info"> Edit</a>
@@ -41,27 +41,22 @@
                                         <button type="Submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure?')">Delete</button>
                             </form>chec
                         @endif  
-                        <div class="float-right">
-                            <span class="text-muted">Created: {{$question->created_date}}</span>
-                            <div class="media">
-                                <a href="{{$question->user->url}}" class="pr-2">
-                                    <img src="{{$question->user->avatar}}"> 
-                                </a>
-                            
-                                <div class="media-body">
-                                    <a href="{{$question->user->url}}">
-                                    {{$question->user->name}}
-                                    </a>
-                                </div>
+                        <div class="row">
+                            <div class="col-4"></div>
+                            <div class="col-4"></div>
+                            <div class="col-4">
+                                @include('shared._author',[
+                                        'model'=>$question,
+                                        'label'=>'Asked'
+                                    ])
                             </div>
                         </div>
-                </div>
+                    </div>
                 </div>
             </div>
         </div>
       
     </div>
-
     
     <div class="row mt-3">
         <div class="col-md-12">

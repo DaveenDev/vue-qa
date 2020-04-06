@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Answer extends Model
 {
+
+    use Functions;
+
     protected $fillable=['body','user_id'];
     public function question(){
         return $this->belongsTo(Question::class);
@@ -14,12 +17,6 @@ class Answer extends Model
     public function user(){
         return $this->belongsTo(User::class);
     }
-
-    public function votes()
-    {
-        return $this->morphToMany(User::class,'votable'); //make the 2nd argument in singular form Eloquent recognize the table is votables
-    }
-
 
     public function getBodyHtmlAttribute(){
         //parse the markdown into html ex. \n into <br>
@@ -63,15 +60,5 @@ class Answer extends Model
         });
     }
 
-    public function upVotes()
-    {
-        return $this->votes()->wherePivot('vote',1); //return the collection of votes +1
-         
-    }
-
-    public function downVotes()
-    {
-        return $this->votes()->wherePivot('vote',-1); //return the collection of votes -1
-        
-    }
+   
 }
