@@ -76,13 +76,13 @@ class User extends Authenticatable
     public function voteQuestion(Question $question, $vote)
     {
         $voteQ=$this->voteQuestions();
-        $this->_vote($voteQ,$question,$vote);
+       return $this->_vote($voteQ,$question,$vote);
     }
 
     public function voteAnswer(Answer $answer, $vote)
     {
         $voteA=$this->voteAnswers();
-       $this->_vote($voteA,$answer,$vote);
+          return $this->_vote($voteA,$answer,$vote);
     }
 
     private function _vote($relationship, $model,$vote)
@@ -90,8 +90,10 @@ class User extends Authenticatable
         
         if($relationship->where('votable_id',$model->id)->exists()){
             $relationship->updateExistingPivot($model,['vote'=>$vote]);
+            //dd("updated  1");
          }else{
              $relationship->attach($model,['vote'=>$vote]);
+             //dd("added 1");
          }
  
          $model->load('votes'); //refresh the field value
@@ -100,5 +102,6 @@ class User extends Authenticatable
          
          $model->votes_count=$up+$down;
          $model->save(); 
+         
     }
 }

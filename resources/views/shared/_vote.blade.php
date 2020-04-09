@@ -3,7 +3,7 @@
         $name="question"; 
         $name_uri='questions'
     @endphp
-@else
+@elseif($model instanceof App\Answer)
     @php
         $name="answer";    
         $name_uri='answers'
@@ -13,6 +13,7 @@
 @php
     $formID=$name . "-" . $model->id;
     $formAction="/". $name_uri ."/". $model->id ."/vote";
+    
 @endphp
 
 <div class="d-flex flex-column vote-controls">

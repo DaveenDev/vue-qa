@@ -17,6 +17,7 @@ class Question extends Model
       //define question - answer relationship
       public function answers(){
         return $this->hasMany(Answer::class);
+        //return $this->hasMany(Answer::class)->orderBy('votes_count','DESC'); how to add order by query
     }
 
     public function favorites(){
@@ -30,8 +31,14 @@ class Question extends Model
         //when title is set to a value then the slug field will get an value with slug value too 
         $this->attributes['title']=$value;
         $this->attributes['slug']=Str::slug($value);
-
     }
+
+    public function setBodyAttribute($value)
+    {
+        //when title is set to a value then the slug field will get an value with slug value too 
+        $this->attributes['body']=clean($value);
+    }
+
 
     //Accessors
     public function getUrlAttribute(){
@@ -54,8 +61,22 @@ class Question extends Model
     }
 
     public function getBodyHtmlAttribute(){
-        //parse the markdown into html ex. \n into <br>
-       return  \Parsedown::instance()->text($this->body);
+      return clean($this->bodyHtml());
+    }
+
+    public function getExcerptAttribute()
+    {
+        return $this->excerpt(300);
+    }
+
+    public function excerpt($length)
+    {
+        return Str::limit(strip_tags($this->bodyHtml),$length);
+    }
+
+    private function bodyHtml()
+    {
+        return  \Parsedown::instance()->text($this->body);
     }
 
     public function acceptBestAnswer(Answer $answer)

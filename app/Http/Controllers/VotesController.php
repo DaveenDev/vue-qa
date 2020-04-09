@@ -18,6 +18,7 @@ class VotesController extends Controller
         $vote =(int) request()->vote;
        
         auth()->user()->voteQuestion($question,$vote);
+        
         return back();
     }
 
@@ -25,6 +26,7 @@ class VotesController extends Controller
     {
         $vote =(int) request()->vote;
         auth()->user()->voteAnswer($answer,$vote);
+       
         return back();
     }
   
