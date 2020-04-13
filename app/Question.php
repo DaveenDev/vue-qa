@@ -7,15 +7,14 @@ use Illuminate\Support\Str;
 
 class Question extends Model
 {
-    use Functions; //import functions.php
+    use Functions;
     
     protected $fillable=['title','body'];
-
     public function user(){
         return $this->belongsTo(User::class);
     }
 
-    //define question - answer relationship
+      //define question - answer relationship
       public function answers(){
         return $this->hasMany(Answer::class);
         //return $this->hasMany(Answer::class)->orderBy('votes_count','DESC'); how to add order by query
