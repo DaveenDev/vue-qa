@@ -18,12 +18,42 @@
 
                 <div class="card-body">
                     @include('layouts._messages')
-                    @forelse ($questions as $q)
-                        @include('questions._excerpt')
-                    @empty
-                        <div class="alert alert-warning">There are no questions available</div>
-                    
-                    @endforelse
+                    @foreach ($questions as $q)
+                        <div class="media">
+                            @include('shared._vote',[
+                                'model'=>$q
+                            ])
+                            
+                            <div class="media-body">
+                                <div class="d-flex align-items-center">
+                                    <h3 class="mt-0"> <a href="{{$q->url}}">{{$q->title}}</a></h3>
+                                    
+                                        <div class="ml-auto">
+                                           @can('update',$q)
+                                                <a href="{{route('questions.edit',$q->id)}}" class="btn btn-sm btn-outline-info"> Edit</a>
+                                            @endcan
+                                            @can('delete',$q)
+                                                <form class="form-delete " method="post" action="{{route('questions.destroy',$q->id)}}">
+                                                    @method('DELETE')
+                                                    @csrf
+                                                <button type="Submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure?')">Delete</button>
+                                                </form>
+                                            @endcan
+                                        </div>
+                                    
+                                </div>      
+                            
+                            <p class="lead">
+                                Asked by <a href="{{$q->user->url}}">{{$q->user->name}}</a>
+                                <small class="text-muted">{{$q->created_date}}</small>
+                            </p>
+                            <div class="excerpt">
+                                {{ $q->excerpt(350) }}
+                            </div>
+                            </div>
+                        </div>
+                        <hr>
+                    @endforeach
                     {{$questions->links()}}
                 </div>
             </div>

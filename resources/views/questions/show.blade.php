@@ -17,6 +17,7 @@
                 </div>
 
                 <div class="media">
+                <!-- Show Each Question Vote Control -->
                 @include('shared._vote',[
                    'model' => $question
                 ])    
@@ -35,10 +36,8 @@
                                 <div class="col-4"></div>
                                 <div class="col-4"></div>
                                 <div class="col-4">
-                                    @include('shared._author',[
-                                            'model'=>$question,
-                                            'label'=>'Asked'
-                                        ])
+                                    <!-- Show Each Question Author -->
+                                    <user-info :model="{{$question}}" :user="{{$question->user}}" label="Asked"></user-info>
                                 </div>
                             </div>
 
