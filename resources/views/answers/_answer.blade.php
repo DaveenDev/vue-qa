@@ -1,11 +1,11 @@
-<div class="media post">
+<div class="post media">
     @include('shared._vote',[
         'model'=>$answer
     ])
     <div class="media-body">
         {!! $answer->body_html !!}
         <div class="row">
-            <div class="col-4">
+            <div class="col-3">
                 @can('update',$answer)
                             <a href="{{route('questions.answers.edit',[$question->id,$answer->id])}}" class="btn btn-sm btn-outline-info"> Edit</a>
                 @endcan
@@ -17,11 +17,14 @@
                             </form>
                 @endcan
             </div>
-            <div class="col-4">
-            </div>
-            <div class="col-4">
+
+            <div class="col-3">            </div>
+            <div class="col-3">            </div>
+            <div class="col-3">
                 
-                <user-info :model="{{$answer}}" label="Answered"></user-info>
+                <!-- Show Each Answer Author -->
+                <user-info :model="{{$answer}}" :user="{{$answer->user}}" label="Answered"></user-info>
+
             </div>
         </div>
       

@@ -10,9 +10,10 @@
                     @include('layouts._messages')
                     @foreach($answers as $answer)
                         @include('answers._answer')
+                    @endforeach
                 </div>
-         
-                @endforeach
+                
+                
             </div>
         </div>
  @endif

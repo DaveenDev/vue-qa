@@ -10,6 +10,13 @@ class Question extends Model
     use Functions;
     
     protected $fillable=['title','body'];
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = ['url','created_date'];
+
     public function user(){
         return $this->belongsTo(User::class);
     }
