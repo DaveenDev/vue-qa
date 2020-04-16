@@ -12,7 +12,8 @@ export default {
             bodyHtml: this.answer.body_html,
             id: this.answer.id,
             questionID: this.answer.question_id,
-            beforeEditCache: null
+            beforeEditCache: null,
+            userdeleted: false
             
         }
     },
@@ -27,33 +28,59 @@ export default {
         },
         update(){
             
-            axios.patch(`/questions/${this.questionID}/answers/${this.id}`,{
+            axios.patch(this.endpoint,{
                 body:this.body
             }).then(res=>{
                 console.log(res);
                 this.editing=false;
                 this.bodyHtml=res.data.body_html;
-                
+                this.$toast.success(res.data.message,'Success',{timeout: 3000});
             })
             .catch(err=>{
-                alert(err.response.data.message);
+                this.$toast.error(err.response.data.message,'Error',{timeout: 3000});
             });
         },
         destroy(){
-            if(confirm('Are you sure?')){
-                axios.delete(`/questions/${this.questionID}/answers/${this.id}`)
-                    .then(res=>{
-                        $(this.$el).fadeOut(500, ()=>{
-                            alert(res.data.message)
-                        })
-                    });
-            }
+                      
+            this.$toast.question('Are you sure about that?','Confirm',{
+                timeout: 20000,
+                close: false,
+                overlay: true,
+                displayMode: 'once',
+                id: 'question',
+                zindex: 999,
+                position: 'center',
+                buttons: [
+                    ['<button><b>YES</b></button>', (instance, toast) =>{
+                       axios.delete(this.endpoint)
+                                            .then(res=>{
+                                                $(this.$el).fadeOut(500, ()=>{
+                                                    this.$toast.success(res.data.message,'Deleted',{position: 'bottomCenter'});
+                                                })
+                        });
+        
+                        instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
+            
+                    }, true],
+                    ['<button>NO</button>', function (instance, toast) {
+            
+                        instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
+            
+                    }],
+                ]
+             
+            });
+
         }
     },
     computed: {
         isInvalid(){
-            return this.body.length<10;
+            return this.body.length < 10;
+        },
+        endpoint(){
+            return `/questions/${this.questionID}/answers/${this.id}`;
+        }
     }
-    }
+    
 }
 </script>
