@@ -44,13 +44,14 @@ class Answer extends Model
     public static function boot(){
         parent::boot();
 
+        //create class listener for when answer is created
         static::created(function ($answer){
             $answer->question->increment('answers_count');
             $answer->question->save();
         });
-
+        //create class listener for deletion of answer
         static::deleted(function ($answer){
-            $questio=$answer->question;
+            $question=$answer->question;
             $answer->question->decrement('answers_count');
             
             //check if the deleted answer was the best answer, then replace the best answer ID to null

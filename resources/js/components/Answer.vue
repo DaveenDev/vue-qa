@@ -38,12 +38,22 @@ export default {
             .catch(err=>{
                 alert(err.response.data.message);
             });
+        },
+        destroy(){
+            if(confirm('Are you sure?')){
+                axios.delete(`/questions/${this.questionID}/answers/${this.id}`)
+                    .then(res=>{
+                        $(this.$el).fadeOut(500, ()=>{
+                            alert(res.data.message)
+                        })
+                    });
+            }
         }
     },
     computed: {
         isInvalid(){
             return this.body.length<10;
-        }
+    }
     }
 }
 </script>

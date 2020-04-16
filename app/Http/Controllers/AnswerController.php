@@ -54,7 +54,7 @@ class AnswerController extends Controller
         ]));
         
         //if there's an ajax call
-        if($request->expectsJson()){
+        if(request()->expectsJson()){
             return response()->json([
                 'message'=>'Your answer has been updated',
                 'body_html'=>$answer->body_html
@@ -72,7 +72,14 @@ class AnswerController extends Controller
      */
     public function destroy(Question $question,Answer $answer)
     {
+        $this->authorize('delete',$answer);
+
         $answer->delete();
+        if(request()->expectsJson()){
+            return response()->json([
+                'message'=>'Answer has been deleted'
+            ]);
+        }
         return redirect('/questions/' .$question->slug)->with('success','Answer has been deleted');
     }
 }

@@ -11386,6 +11386,17 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function (err) {
         alert(err.response.data.message);
       });
+    },
+    destroy: function destroy() {
+      var _this2 = this;
+
+      if (confirm('Are you sure?')) {
+        axios["delete"]("/questions/".concat(this.questionID, "/answers/").concat(this.id)).then(function (res) {
+          $(_this2.$el).fadeOut(500, function () {
+            alert(res.data.message);
+          });
+        });
+      }
     }
   },
   computed: {
