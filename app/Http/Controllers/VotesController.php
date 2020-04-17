@@ -17,16 +17,27 @@ class VotesController extends Controller
     {
         $vote =(int) request()->vote;
        
-        auth()->user()->voteQuestion($question,$vote);
-        
+        $voteCount= auth()->user()->voteQuestion($question,$vote);
+        if (request()->expectsJson()){
+            return response()->json([
+                'message'=>'Thanks for the feedback',
+                'votesCount'=> $voteCount
+            ]);
+        }
         return back();
     }
 
     public function vote_answer(Answer $answer)
     {
         $vote =(int) request()->vote;
-        auth()->user()->voteAnswer($answer,$vote);
-       
+        $voteCount=auth()->user()->voteAnswer($answer,$vote);
+      
+        if (request()->expectsJson()){
+            return response()->json([
+                'message'=>'Thanks for the feedback',
+                'votesCount'=> $voteCount
+            ]);
+        }
         return back();
     }
   

@@ -18,9 +18,8 @@
 
                 <div class="media">
                 <!-- Show Each Question Vote Control -->
-                @include('shared._vote',[
-                   'model' => $question
-                ])    
+                <vote :model="{{$question}}" name="question"></vote>  
+                
                 <div class="media-body">
                    {!! $question->body_html !!}
                    

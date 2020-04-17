@@ -11,7 +11,7 @@
 
 <script>
 export default {
-    props: ['question'],
+     props: ['question'],
     data(){
         return {
             isFavorited: this.question.is_favorited,

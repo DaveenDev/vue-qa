@@ -100,7 +100,7 @@ class User extends Authenticatable
             //dd("updated  1");
          }else{
              $relationship->attach($model,['vote'=>$vote]);
-             //dd("added 1");
+            //dd("added 1");
          }
  
          $model->load('votes'); //refresh the field value
@@ -110,5 +110,6 @@ class User extends Authenticatable
          $model->votes_count=$up+$down;
          $model->save(); 
          
+         return $model->votes_count;
     }
 }
