@@ -6,7 +6,10 @@
             <i class="fa fa-check fa-2x"></i>
         </a>
 
-   
+        <a v-if="accepted" title="The question author has marked this as best answer"
+            :class="classes">
+            <i class="fa fa-check fa-2x"></i>
+        </a>
 
 </div>
 </template>
@@ -22,7 +25,9 @@ export default {
     },
     computed: {
         canAccept(){
-            return true;
+            //console.log('can accept ' + this.authorize('accept',this.answer));
+            return this.authorize('accept',this.answer);
+
         },
         accepted(){
             return !this.canAccept && this.isBest;

@@ -5,9 +5,7 @@
         <i class="fa fa-star fa-2x"></i>
         <span class="favorites-count">{{count}}</span>
     </a>
-    <a v-if="accepted" title="Best Answer marked by question owner" :class="classes">
-             <i class="fa fa-check fa-2x"></i>
-    </a>
+  
 </div>
 </template>
 
@@ -29,10 +27,8 @@ export default {
         },
         endpoint(){
             return `/questions/${this.id}/favorites`
-        },
-        signedIn(){
-            return window.Auth.signedIn;
         }
+        
     },
     methods:{
         toggle(){
