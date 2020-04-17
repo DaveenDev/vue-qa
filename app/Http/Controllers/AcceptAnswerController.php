@@ -14,6 +14,12 @@ class AcceptAnswerController extends Controller
         //$answer->question->acceptBestAnswer($answer);
         $answer->question->best_answer_id=$answer->id;
         $answer->question->save();
+
+        if(request()->expectsJson()){
+            return response()->json([
+               'message'=>'You have accepted this answer as the BEST ANSWER'
+            ]);
+        }
         return back();
     }
 }
