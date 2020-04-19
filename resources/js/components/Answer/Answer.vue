@@ -40,8 +40,10 @@
 
 <script>
 
+import EventBus from './answer-events';
 
 export default {
+
     props: ['answer'],
     data(){
         return {
@@ -59,20 +61,23 @@ export default {
         edit(){
             this.beforeEditCache=this.body;
             this.editing=true;
+            EventBus.$emit('editMode',this.editing);
         },
         cancel(){
             this.body=this.beforeEditCache;
             this.editing=false;
+            EventBus.$emit('editMode',this.editing);
         },
         update(){
             
             axios.patch(this.endpoint,{
                 body:this.body
             }).then(res=>{
-                console.log(res);
+                //console.log(res);
                 this.editing=false;
                 this.bodyHtml=res.data.body_html;
                 this.$toast.success(res.data.message,'Success',{timeout: 3000});
+                EventBus.$emit('editMode',this.editing);
             })
             .catch(err=>{
                 this.$toast.error(err.response.data.message,'Error',{timeout: 3000});

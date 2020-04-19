@@ -27,7 +27,7 @@
 
 <script>
 import Favorite from './Favorite.vue';
-import AcceptAnswer from './AcceptAnswer.vue';
+import AcceptAnswer from './Answer/AcceptAnswer.vue';
 
 export default {
     props: ['name','model'],
@@ -38,7 +38,7 @@ export default {
     data(){
         return {
             id: this.model.id,
-            count: this.model.votes_count
+            count: this.model.votes_count || 0
         }
     },
     computed: {

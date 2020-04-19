@@ -27,11 +27,18 @@ class AnswerController extends Controller
     public function store(Question $question,Request $request)
     {
 
-        $question->answers()
+       $answer= $question->answers()
             ->create($request->validate([
                 'body'=>'required'
             ])
             + ['user_id'=>\Auth::id()]);
+
+        if (request()->expectsJson()){
+            return response()->json([
+                'message'=>'Your answer has been submitted',
+                'answer'=>$answer
+            ]);
+        }
         return back()->with('success','Your answer has been submitted');
     }
  
