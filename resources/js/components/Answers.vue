@@ -7,7 +7,7 @@
                         <h3>{{title}}</h3>
                     </div>
                     <hr>
-                    <answer v-for ="(answer,index) in answers" :answer="answer" :key="answer.id"
+                    <answer v-for="(answer,index) in answers" :answer="answer" :key="answer.id"
                         @deleted="remove(index)"></answer>
 
                     <div class="text-center mt-3">
@@ -47,11 +47,12 @@ export default {
                     this.answers.push(...res.data.data);
                     this.nextUrl=res.data.next_page_url;
                 });
+        },    
+        remove(index){
+            this.answers.splice(index,1); //remove the deleted index
+            this.count--;
+            console.log('index =' + index);
         }
-    },
-    remove(index){
-        this.answers.splice(index,1); //remove the deleted index
-        this.count--;
     },
     computed: {
         title(){

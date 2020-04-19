@@ -91,12 +91,9 @@ export default {
                 buttons: [
                     ['<button><b>YES</b></button>', (instance, toast) =>{
                        axios.delete(this.endpoint)
-                                            .then(res=>{
-                                                $(this.$el).fadeOut(500, ()=>{
-                                                    this.$toast.success(res.data.message,'Deleted',{position: 'bottomCenter'});
-                                                    this.$emit('deleted');
-                                                })
-                        });
+                            .then(res=>{                
+                                this.$emit('deleted');
+                            });
         
                         instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
             
