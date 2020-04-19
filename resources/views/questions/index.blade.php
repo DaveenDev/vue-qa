@@ -20,9 +20,8 @@
                     @include('layouts._messages')
                     @foreach ($questions as $q)
                         <div class="media">
-                            @include('shared._vote',[
-                                'model'=>$q
-                            ])
+
+                        <vote :model="{{$q}}" name="question"></vote>
                             
                             <div class="media-body">
                                 <div class="d-flex align-items-center">

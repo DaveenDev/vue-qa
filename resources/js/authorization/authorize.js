@@ -12,8 +12,7 @@ export default{
             if(typeof policy==='string' && typeof model==='object'){
                 const user=window.Auth.user;
                 
-                //return policies[policy](user,model);
-                return true;
+                return policies[policy](user,model);
             }
         };
         Vue.prototype.signedIn=window.Auth.signedIn;
