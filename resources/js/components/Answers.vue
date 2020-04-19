@@ -8,9 +8,14 @@
                     </div>
                     <hr>
                     <answer v-for ="answer in answers" :answer="answer" :key="answer.id"></answer>
+
+                    <div class="text-center mt-3">
+                        <button v-if="nextUrl" 
+                            @click.prevent="fetch(nextUrl)"
+                            class="btn btn-outline-secondary">More...</button>        
+                    </div>
                 </div>
-                
-                
+               
             </div>
         </div>
  
@@ -20,8 +25,29 @@
 <script>
 import Answer from './Answer.vue';
 export default {
-    props: ['answers','count'],
+    props: ['question'],
     components: { Answer },
+    data(){
+        return{
+        questionID: this.question.id,
+        count: this.question.answers_count,
+        answers: [],
+        nextUrl: null
+        }
+    },
+    created(){
+        this.fetch(`/questions/${this.questionID}/answers`);
+    },
+    methods:{
+        fetch(endpoint){
+            axios.get(endpoint)
+                .then(res=>{
+                    //... means merging data array with data, data3.push(...data1)
+                    this.answers.push(...res.data.data);
+                    this.nextUrl=res.data.next_page_url;
+                });
+        }
+    },
     computed: {
         title(){
             return  this.count + " " + (this.count > 1? 'Answers' : 'Answer');

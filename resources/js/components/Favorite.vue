@@ -34,6 +34,7 @@ export default {
         toggle(){
             if(!this.signedIn){
                 this.$toast.warning("Please login to mark this question as favorite","Warning",{timeout:3000, position: 'bottomCenter'});
+                //this.$toast.warning("Please login to mark this question as favorite","Warning",toastalerttype('warning'));
                 return
             }
             this.isFavorited? this.destroy() : this.create();
