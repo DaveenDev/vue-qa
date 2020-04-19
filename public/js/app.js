@@ -11512,6 +11512,8 @@ __webpack_require__.r(__webpack_exports__);
               _this2.$toast.success(res.data.message, 'Deleted', {
                 position: 'bottomCenter'
               });
+
+              _this2.$emit('deleted');
             });
           });
           instance.hide({
@@ -11583,6 +11585,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['question'],
@@ -11613,6 +11616,11 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         _this.nextUrl = res.data.next_page_url;
       });
     }
+  },
+  remove: function remove(index) {
+    this.answers.splice(index, 1); //remove the deleted index
+
+    this.count--;
   },
   computed: {
     title: function title() {
@@ -48068,10 +48076,15 @@ var render = function() {
               _vm._v(" "),
               _c("hr"),
               _vm._v(" "),
-              _vm._l(_vm.answers, function(answer) {
+              _vm._l(_vm.answers, function(answer, index) {
                 return _c("answer", {
                   key: answer.id,
-                  attrs: { answer: answer }
+                  attrs: { answer: answer },
+                  on: {
+                    deleted: function($event) {
+                      return _vm.remove(index)
+                    }
+                  }
                 })
               }),
               _vm._v(" "),

@@ -94,6 +94,7 @@ export default {
                                             .then(res=>{
                                                 $(this.$el).fadeOut(500, ()=>{
                                                     this.$toast.success(res.data.message,'Deleted',{position: 'bottomCenter'});
+                                                    this.$emit('deleted');
                                                 })
                         });
         
