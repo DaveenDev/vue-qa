@@ -34,9 +34,7 @@ class RouteServiceProvider extends ServiceProvider
         //this code allow to accept slug as parameter and find that slug in the questions table
         Route::bind('slug',function($slug){
            //return Question::with('answers.user')->where('slug',$slug)->first() ?? abort(404); //shortcut version
-           return Question::with(['answers.user','answers'=>function($query){
-               $query->orderBy('votes_count','DESC');
-           }])->where('slug',$slug)->first() ?? abort(404); //shortcut version
+           return Question::where('slug',$slug)->first() ?? abort(404); //shortcut version
             //another way is
             //return $question ? $question : abort(404);  this means show question data or error page 404
         });

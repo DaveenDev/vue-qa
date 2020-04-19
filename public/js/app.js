@@ -11666,8 +11666,7 @@ __webpack_require__.r(__webpack_exports__);
         this.$toast.warning("Please login to mark this question as favorite", "Warning", {
           timeout: 3000,
           position: 'bottomCenter'
-        }); //this.$toast.warning("Please login to mark this question as favorite","Warning",toastalerttype('warning'));
-
+        });
         return;
       }
 
