@@ -11,5 +11,8 @@ export default{
             return false;
         }
         
+    },
+    deleteQuestion(user,question){
+        return user.id===question.user_id && question.answers_count<1;
     }
 }
