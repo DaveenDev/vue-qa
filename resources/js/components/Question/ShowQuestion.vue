@@ -50,7 +50,7 @@
                                     > Edit</a>        
                                 <button v-if="authorize('deleteQuestion',question)"
                                         type="button" class="btn btn-sm btn-outline-danger" 
-                                        @click.prevent="delQuestion()">Delete</button>
+                                        @click.prevent="destroy()">Delete</button>
                                 
                             
                                 <div class="row mb-3">
@@ -72,14 +72,17 @@
 </template>
 
 <script>
+
+import functions from '../../mixins/functions';
+
 export default {
     props: ['question','user'],
+    mixins: [functions],
     data(){
         return {
             title: this.question.title,
             body: this.question.body,
             body_html: this.question.body_html,
-            editing: false,
             beforeEditCache: {},
             id: this.question.id
         }
@@ -93,63 +96,30 @@ export default {
         }
     },
     methods: {
-        edit(){
-            this.editing=true;
-            this.beforeEditCache={
+        setEditCache(){ //send to mixins
+            this.beforeEditCache=this.body;
+           
+        },
+        restoreFromCache(){ //send to mixins
+            this.body=this.beforeEditCache;
+        },
+        payload(){ //send to mixins
+            return {
                 title: this.title,
                 body: this.body,
-            };
-
-        },
-        cancel(){
-            this.editing=false,
-            this.title=this.beforeEditCache.title,
-            this.body=this.beforeEditCache.body
-        },
-        updateQuestion(){
-            axios.put(this.editquestion_url,{
-                title: this.title, 
-                body:this.body
-            }).catch(({response})=>{
-                this.$toast.error(response.data.message,"Error",{timeout:3000,position:'bottomCenter'});
-            }).then(({data})=>{
-                this.bodyHtml=data.body_html;
-                this.$toast.success(data.message,"Success",{timeout:3000,position:'bottomCenter'});
-                this.editing=false;
-            })
-        },
-        delQuestion(){
-            this.$toast.question('Are you sure about that?','Confirm',{
-                timeout: 20000,
-                close: false,
-                overlay: true,
-                displayMode: 'once',
-                id: 'question',
-                zindex: 999,
-                position: 'center',
-                buttons: [
-                    ['<button><b>YES</b></button>', (instance, toast) =>{
+            }
+        },     
+        delete(){ //send to mixins
                        axios.delete(`/questions/${this.id}`)
                             .then(({data})=>{                
-                                 this.$toast.success(data.message,"Success",{timeout:2000,position:'bottomCenter'});
-                                
+                          
+                                this.$toast.success(data.message,"Success",{timeout:2000,position:'bottomCenter'});
                                 setTimeout(()=>{
                                     window.location.href="/questions";
                                 },2000);
                                 
-                            });
-        
-                        instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
+                            });       
             
-                    }, true],
-                    ['<button>NO</button>', function (instance, toast) {
-            
-                        instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
-            
-                    }],
-                ]
-             
-            });
         }
     }
 }
