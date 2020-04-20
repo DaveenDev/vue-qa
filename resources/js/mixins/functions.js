@@ -11,6 +11,7 @@ export default {
             this.setEditCache();
             this.editing=true;
             EventBus.$emit('editMode',this.editing);
+            console.log("editing" + this.editing);
         },
         cancel(){
             this.restoreFromCache();

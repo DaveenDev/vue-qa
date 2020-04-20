@@ -1,31 +1,9 @@
 <template>
       <div class="col-md-12">
             <div class="card">
-                  <!-- Show edit mode of Question -->
-                  
-                <form class="card-body" v-if="editing" @submit.prevent="updateQuestion">
-                    <div class="form-group">
-                        <label for="title">Title</label>
-                        <input type="text" name="title" id="title" :value="title" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label for="body">Body</label>
-                        <textarea name="body" id="body" rows="10" class="form-control" v-model="body">
-                            
-                        </textarea>
-                    </div>
-                    <div class="form-group">
-                        <button type="Submit" class="btn btn-primary btn-sm mt-1"
-                                    @click.prevent="updateQuestion()"
-                                    > Update</button>        
-                                <button type="button" class="btn btn-secondary btn-sm mt-1" 
-                                        @click.prevent="cancel()">Cancel</button>
-                        
-                    </div>
-
-                </form>
+               
                 <!-- Show Index of Questions -->
-                <div class="card-body" v-else>
+                <div class="card-body" v-if="!editing">
                     <div class="card-title">
                         <div class="d-flex align-items-center">
                             <h2>{{title}}</h2>
@@ -42,7 +20,6 @@
                     
                         <div class="media-body">
                                 <div v-html="body"></div>
-                                
 
                                 <a v-if="authorize('modify',question)"
                                     class="btn btn-sm btn-outline-info"
@@ -67,6 +44,32 @@
                         </div>
                     </div>
                 </div>
+
+                   <!-- Show edit mode of Question -->
+                  
+                <form class="card-body" v-if="editing" @submit.prevent="updateQuestion">
+                    <div class="form-group">
+                        <label for="title">Title</label>
+                        <input type="text" name="title" id="title" :value="title" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="body">Body</label>
+                        <m-editor :body="body"> 
+                            <!-- tobe displayed on <slot></slot> on MEditor-->
+                            <textarea name="body" id="body" rows="10" class="form-control" v-model="body"></textarea>
+                        </m-editor>    
+                        
+                    </div>
+                    <div class="form-group">
+                        <button type="Submit" class="btn btn-primary btn-sm mt-1"
+                                    @click.prevent="updateQuestion()"
+                                    > Update</button>        
+                                <button type="button" class="btn btn-secondary btn-sm mt-1" 
+                                        @click.prevent="cancel()">Cancel</button>
+                        
+                    </div>
+
+                </form>
             </div>
         </div>
 </template>
@@ -74,10 +77,14 @@
 <script>
 
 import functions from '../../mixins/functions';
+import MEditor from '../../components/MEditor.vue';
 
 export default {
     props: ['question','user'],
     mixins: [functions],
+    components:{
+        MEditor
+    }, 
     data(){
         return {
             title: this.question.title,
