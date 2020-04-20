@@ -12,13 +12,31 @@
         </div>
         <div class="card-body tab-content" >
             <div class="tab-pane active" id="write"> <slot></slot></div>
-            <div class="tab-pane" id="preview">Preview...</div>
+            <div class="tab-pane" id="preview" v-html="preview"></div>
         </div>
     </div>
 </template>
 
 <script>
+
+import autosize from 'autosize';
+
+import MardownIt from 'markdown-it';
+const md=new MardownIt();
+
+
 export default {
-    props: ['body']
+    props: ['body'],
+    computed: {
+        preview(){
+            return md.render(this.body);
+        }
+    },
+    watch: {
+        body: function(){
+            autosize(document.querySelector('textarea'));
+        }
+    }
+
 }
 </script>

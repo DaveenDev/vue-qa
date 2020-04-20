@@ -46,7 +46,6 @@
                 </div>
 
                    <!-- Show edit mode of Question -->
-                  
                 <form class="card-body" v-if="editing" @submit.prevent="updateQuestion">
                     <div class="form-group">
                         <label for="title">Title</label>

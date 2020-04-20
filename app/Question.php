@@ -39,11 +39,11 @@ class Question extends Model
         $this->attributes['slug']=Str::slug($value);
     }
 
-    public function setBodyAttribute($value)
+    /*public function setBodyAttribute($value)
     {
         //when title is set to a value then the slug field will get an value with slug value too 
         $this->attributes['body']=clean($value);
-    }
+    }*/
 
 
     //Accessors
