@@ -19,7 +19,7 @@
                     <vote :model="question" name="question"></vote>  
                     
                         <div class="media-body">
-                                <div v-html="body"></div>
+                                <div v-html="body_html"></div>
 
                                 <a v-if="authorize('modify',question)"
                                     class="btn btn-sm btn-outline-info"
@@ -45,8 +45,8 @@
                     </div>
                 </div>
 
-                   <!-- Show edit mode of Question -->
-                <form class="card-body" v-if="editing" @submit.prevent="updateQuestion">
+                   <!-- Show edit mode Question -->
+                <form class="card-body" v-if="editing" @submit.prevent="update()">
                     <div class="form-group">
                         <label for="title">Title</label>
                         <input type="text" name="title" id="title" :value="title" class="form-control">
@@ -60,9 +60,7 @@
                         
                     </div>
                     <div class="form-group">
-                        <button type="Submit" class="btn btn-primary btn-sm mt-1"
-                                    @click.prevent="updateQuestion()"
-                                    > Update</button>        
+                        <button type="Submit" class="btn btn-primary btn-sm mt-1"> Update</button>        
                                 <button type="button" class="btn btn-secondary btn-sm mt-1" 
                                         @click.prevent="cancel()">Cancel</button>
                         
@@ -97,7 +95,7 @@ export default {
         isInvalid(){
             return this.body.length<100 || this.title.length<10;
         },
-        editquestion_url() {
+        endpoint() {
             return `/questions/${this.id}`;
         }
     },

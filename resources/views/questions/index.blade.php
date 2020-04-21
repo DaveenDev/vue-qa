@@ -18,23 +18,23 @@
 
                 <div class="card-body">
                     @include('layouts._messages')
-                    @foreach ($questions as $q)
+                    @foreach ($questions as $question)
                         <div class="media">
 
-                        <vote :model="{{$q}}" name="question"></vote>
+                        <vote :model="{{$question}}" name="question"></vote>
                             
                             <div class="media-body">
                                 <div class="d-flex align-items-center">
-                                    <h3 class="mt-0"> <a href="{{$q->url}}">{{$q->title}}</a></h3>
+                                    <h3 class="mt-0"> <a href="{{$question->url}}">{{$question->title}}</a></h3>
                                                                         
                                 </div>      
                             
                             <p class="lead">
-                                Asked by <a href="{{$q->user->url}}">{{$q->user->name}}</a>
-                                <small class="text-muted">{{$q->created_date}}</small>
+                                Asked by <a href="{{$question->user->url}}">{{$question->user->name}}</a>
+                                <small class="text-muted">{{$question->created_date}}</small>
                             </p>
                             <div class="excerpt">
-                                {{ $q->excerpt(350) }}
+                                {{ $question->excerpt(350) }}
                             </div>
                             </div>
                         </div>

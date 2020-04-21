@@ -11,7 +11,6 @@ export default {
             this.setEditCache();
             this.editing=true;
             EventBus.$emit('editMode',this.editing);
-            console.log("editing" + this.editing);
         },
         cancel(){
             this.restoreFromCache();
@@ -27,11 +26,12 @@ export default {
                 //console.log(res);
                 this.editing=false;
                 this.bodyHtml=res.data.body_html;
-                this.$toast.success(res.data.message,'Success',{timeout: 3000});
+                this.$toast.success(res.data.message,'Success',{timeout: 3000,position: 'bottomCenter'});
                 EventBus.$emit('editMode',this.editing);
             })
             .catch(err=>{
-                this.$toast.error(err.response.data.message,'Error',{timeout: 3000});
+                //console.log(err);
+                this.$toast.warning(err.response.data.message,'Warning',{timeout: 3000,position: 'bottomCenter'});
             });
         },
         payload(){},

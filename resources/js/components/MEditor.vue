@@ -24,6 +24,10 @@ import autosize from 'autosize';
 import MardownIt from 'markdown-it';
 const md=new MardownIt();
 
+import prism from 'markdown-it-prism';
+
+md.use(prism);
+
 
 export default {
     props: ['body'],
