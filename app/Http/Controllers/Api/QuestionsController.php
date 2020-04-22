@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Question;
 use Illuminate\Http\Request;
 use App\Http\Resources\QuestionResource;
+use App\Http\Requests\AskQuestionRequest;
 
 class QuestionsController extends Controller
 {
@@ -17,7 +18,7 @@ class QuestionsController extends Controller
     public function index()
     {
         $questions=Question::with('user')->latest()->paginate(5);
-        return QuestionResource::collection($questions);
+        return QuestionResource::collection($questions); //this is how to transform many objects into json
     }
 
     /**
@@ -26,9 +27,16 @@ class QuestionsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AskQuestionRequest $request)
     {
-        //
+        $newquestion=$request->user()->questions()->create(
+            $request->only('title','body')); //$request->only('title','body') if you want specific columns to add
+  
+        return response()->json([
+            'message'=>'Your question has been submitted',
+            'question'=>new QuestionResource($newquestion)
+        ]);
+        
     }
 
     /**
