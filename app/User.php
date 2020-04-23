@@ -113,4 +113,45 @@ class User extends Authenticatable
          
          return $model->votes_count;
     }
+
+    public function posts()
+    {
+        //get post type from request
+        $type=request()->get('type');
+        if($type==='questions'){
+            //get quetions posts
+            $posts=$this->questions()->get();
+        }else{
+            //get answers posts
+            $posts=$this->answers()->with('question')->get();
+            
+            if($type!=='answers'){
+                $qPosts=$this->questions()->get();
+                //merge answers and questions
+                $posts->merge($qPosts);
+            }
+        }
+
+        $data=collect();
+        foreach($posts as $post)
+        {
+            $item=[
+                'votes_count'=>$post->votes_count,
+                'created_at'=>$post->created_at->format('M d Y')
+            ];
+
+            if($post instanceof Answer){
+                $item['type']='A';
+                $item['title']=$post->question->title;
+                $item['accepted']=$post->question->best_answer_id===$post->id? true : false;
+            }elseif($post instanceof Question){
+                $item['type']='Q';
+                $item['title']=$post->title;
+                $item['accepted']= (bool)$post->best_answer_id;
+            }
+            $data->push($item);
+        }
+
+        return $data->sortByDesc('votes_count')->values()->all();
+    }
 }
