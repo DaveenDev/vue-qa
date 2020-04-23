@@ -22,9 +22,8 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
-                </a>
+                <router-link class="navbar-brand" :to="{name: 'home'}">Laravel QA</router-link>
+                
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -32,11 +31,19 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-
+                        
                     </ul>
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
+                        
+                            <router-link class="nav-link" tag="li" :to="{name: 'questions'}">
+                                <a class="nav-link">All Questions</a>
+                            </router-link>                        
+                            <router-link class="nav-link" tag="li" :to="{name: 'my-posts'}">
+                                <a class="nav-link">My Post</a>
+                            </router-link>
+                        
                         <!-- Authentication Links -->
                         @guest
                             <li class="nav-item">
@@ -72,7 +79,7 @@
         </nav>
 
         <main class="py-4">
-           'test content'
+           <router-view></router-view>
         </main>
     </div>
 
@@ -82,7 +89,8 @@
     window.Auth={!! 
          json_encode([
             'signedIn'=>Auth::check(),
-            'user'=> Auth::user()
+            'user'=> Auth::user(),
+            'url'=>route('login')
          ]) !!}
 
 </script>
