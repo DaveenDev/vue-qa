@@ -34,12 +34,12 @@ class RouteServiceProvider extends ServiceProvider
         //this code allow to accept slug as parameter and find that slug in the questions table
        
         //remove this implemenation of slug because the on api.php routes Route::get('/questions/{question}-{slug}','Api\QuestionDetailsController'); is already implemented
-        /*Route::bind('slug',function($slug){
+        Route::bind('slug',function($slug){
            //return Question::with('answers.user')->where('slug',$slug)->first() ?? abort(404); //shortcut version
            return Question::where('slug',$slug)->first() ?? abort(404); //shortcut version
             //another way is
             //return $question ? $question : abort(404);  this means show question data or error page 404
-        });*/
+        });
 
         parent::boot();
     }
