@@ -9,6 +9,7 @@ class Question extends Model
 {
       
     protected $fillable=['title','body'];
+    protected $dates=['created_at','updated_at'];
     /**
      * The accessors to append to the model's array form.
      *
@@ -52,6 +53,8 @@ class Question extends Model
     }
 
     public function getCreatedDateAttribute(){
+        //$date=Carbon::parse(created_at);
+        
         return $this->created_at->diffForHumans();
     }
 
