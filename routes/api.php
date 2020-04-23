@@ -14,7 +14,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('/token','Auth\LoginController@getToken');
+Route::post('/login','Api\Auth\LoginController@store');
+Route::post('/logout','Api\Auth\LoginController@destroy')->middleware('auth:api');
+Route::post('/register','Api\Auth\RegisterController');
+
 Route::get('/questions','Api\QuestionsController@index');
 Route::get('/questions/{question}-{slug}','Api\QuestionDetailsController');
 Route::get('/questions/{question}/answers','Api\AnswersController@index');
