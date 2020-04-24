@@ -15,7 +15,7 @@ const router=new VueRouter({
 router.beforeEach((to, from, next)=>{ //route event that is triggered on accessing routes
     if(to.matched.some(r=>r.meta.requiresAuth) && !window.Auth.signedIn){
         //next({name: 'login'})
-        window.location=window.Auth.url
+        window.location=window.Urls.login
         return
     }
     next()
