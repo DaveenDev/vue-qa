@@ -22,6 +22,8 @@ try {
 window.axios = require('axios');
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+window.axios.defaults.baseURL = window.Urls.api || 'http://127.0.0.1:8000/api'; //for easy calling api endpoint
+//example: axios.get('/question) instead of axios.get(http://127.0.0.1:8000/api/questions)
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
