@@ -81728,7 +81728,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pages_QuestionsIndex_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../pages/QuestionsIndex.vue */ "./resources/js/pages/QuestionsIndex.vue");
 /* harmony import */ var _pages_QuestionPage_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../pages/QuestionPage.vue */ "./resources/js/pages/QuestionPage.vue");
 /* harmony import */ var _pages_MyPostPage_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../pages/MyPostPage.vue */ "./resources/js/pages/MyPostPage.vue");
-/* harmony import */ var _pages_NotFoundPage_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../pages/NotFoundPage.vue */ "./resources/js/pages/NotFoundPage.vue");
+/* harmony import */ var _pages_NotFoundPage_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../pages/NotFoundPage.vue */ "./resources/js/pages/NotFoundPage.vue");
 
 
 
@@ -81756,7 +81756,7 @@ var routes = [{
 }, {
   path: '*',
   //to return 404 page not found 
-  component: _pages_NotFoundPage_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
+  component: _pages_NotFoundPage_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
 }];
 /* harmony default export */ __webpack_exports__["default"] = (routes);
 
