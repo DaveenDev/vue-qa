@@ -27,11 +27,6 @@ const routes=[
         name: 'questions.edit'
     },
     {
-        path: '/questions/:id/delete',
-        component: '',
-        name: 'questions.delete'
-    },
-    {
         path: '/my-posts',
         component: MyPostPage,
         name: 'my-posts',

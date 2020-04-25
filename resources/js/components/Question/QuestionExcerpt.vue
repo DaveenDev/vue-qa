@@ -25,12 +25,12 @@
                             edit
                         </router-link>
                     
-                        <router-link
-                            :to="{name: 'questions.delete', params: {id: question.id}}"
+                        <button
                             v-if="authorize('deleteQuestion', question)" 
-                            class="btn btn-sm btn-outline-info">
+                            class="btn btn-sm btn-outline-info"
+                            @click="destroy()">
                             delete
-                        </router-link>
+                        </button>
                     
                 </div>
             </div>
@@ -62,6 +62,36 @@ export default {
     methods: {
         str_plural(str, count){
             return str + ( count>1?'s': '');
+        },
+        destroy(){
+            this.$toast.question('Are you sure about that?','Confirm',{
+                timeout: 20000,
+                close: false,
+                overlay: true,
+                displayMode: 'once',
+                id: 'question',
+                zindex: 999,
+                position: 'center',
+                buttons: [
+                    ['<button><b>YES</b></button>', (instance, toast) =>{
+                        //delete the data
+                        axios.delete('/questions/' + this.question.id)
+                            .then(({data})=>{
+                                this.$toast.success(data.message,'Success',{timeout: 3000,position: 'bottomCenter'});
+                                this.$emit('deleted');
+                            });
+                                                
+                        instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
+            
+                    }, true],
+                    ['<button>NO</button>', function (instance, toast) {
+            
+                        instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
+            
+                    }],
+                ]
+            
+            });
         }
     },
     computed: {

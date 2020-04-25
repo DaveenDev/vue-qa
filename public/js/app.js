@@ -12269,6 +12269,39 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     str_plural: function str_plural(str, count) {
       return str + (count > 1 ? 's' : '');
+    },
+    destroy: function destroy() {
+      var _this = this;
+
+      this.$toast.question('Are you sure about that?', 'Confirm', {
+        timeout: 20000,
+        close: false,
+        overlay: true,
+        displayMode: 'once',
+        id: 'question',
+        zindex: 999,
+        position: 'center',
+        buttons: [['<button><b>YES</b></button>', function (instance, toast) {
+          //delete the data
+          axios["delete"]('/questions/' + _this.question.id).then(function (_ref) {
+            var data = _ref.data;
+
+            _this.$toast.success(data.message, 'Success', {
+              timeout: 3000,
+              position: 'bottomCenter'
+            });
+
+            _this.$emit('deleted');
+          });
+          instance.hide({
+            transitionOut: 'fadeOut'
+          }, toast, 'button');
+        }, true], ['<button>NO</button>', function (instance, toast) {
+          instance.hide({
+            transitionOut: 'fadeOut'
+          }, toast, 'button');
+        }]]
+      });
     }
   },
   computed: {
@@ -12902,6 +12935,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -12931,6 +12966,10 @@ __webpack_require__.r(__webpack_exports__);
         _this.meta = data.meta;
         _this.links = data.links;
       });
+    },
+    remove: function remove(index) {
+      this.questions.splice(index, 1);
+      this.count--;
     }
   },
   watch: {
@@ -65645,13 +65684,12 @@ var render = function() {
             _vm._v(" "),
             _vm.authorize("deleteQuestion", _vm.question)
               ? _c(
-                  "router-link",
+                  "button",
                   {
                     staticClass: "btn btn-sm btn-outline-info",
-                    attrs: {
-                      to: {
-                        name: "questions.delete",
-                        params: { id: _vm.question.id }
+                    on: {
+                      click: function($event) {
+                        return _vm.destroy()
                       }
                     }
                   },
@@ -66405,10 +66443,15 @@ var render = function() {
             _vm.questions.length
               ? _c(
                   "div",
-                  _vm._l(_vm.questions, function(question) {
+                  _vm._l(_vm.questions, function(question, index) {
                     return _c("question-excerpt", {
                       key: question.id,
-                      attrs: { question: question, user: question.user }
+                      attrs: { question: question, user: question.user },
+                      on: {
+                        deleted: function($event) {
+                          return _vm.remove(index)
+                        }
+                      }
                     })
                   }),
                   1
@@ -82627,32 +82670,7 @@ __webpack_require__.r(__webpack_exports__);
         });
       });
     },
-    payload: function payload() {},
-    destroy: function destroy() {
-      var _this2 = this;
-
-      this.$toast.question('Are you sure about that?', 'Confirm', {
-        timeout: 20000,
-        close: false,
-        overlay: true,
-        displayMode: 'once',
-        id: 'question',
-        zindex: 999,
-        position: 'center',
-        buttons: [['<button><b>YES</b></button>', function (instance, toast) {
-          _this2["delete"]();
-
-          instance.hide({
-            transitionOut: 'fadeOut'
-          }, toast, 'button');
-        }, true], ['<button>NO</button>', function (instance, toast) {
-          instance.hide({
-            transitionOut: 'fadeOut'
-          }, toast, 'button');
-        }]]
-      });
-    },
-    "delete": function _delete() {}
+    payload: function payload() {}
   }
 });
 
@@ -83116,10 +83134,6 @@ var routes = [{
   path: '/questions/:id/edit',
   component: _pages_EditQuestion_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
   name: 'questions.edit'
-}, {
-  path: '/questions/:id/delete',
-  component: '',
-  name: 'questions.delete'
 }, {
   path: '/my-posts',
   component: _pages_MyPostPage_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
