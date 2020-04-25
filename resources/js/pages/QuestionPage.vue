@@ -1,7 +1,7 @@
 <template>
-    <div>
+    <div class="container" v-if="question.id">
         <show-question :question="question" :user="user"></show-question>
-        <answers :question="question"></answers>
+        <!--answers :question="question"></answers-->
     </div>
 </template>
 
@@ -9,10 +9,28 @@
 import ShowQuestion from '../components/Question/ShowQuestion.vue'
 import Answers from '../components/Answer/Answers.vue'
 export default {
-    props: ['question','user'],
+    props: ['slug'],
     components: {
         ShowQuestion,
         Answers
+    },
+    data(){
+        return {
+            question: {},
+            user:{}
+        }
+    },
+    mounted(){
+        this.fetchQuestion();
+    },
+    methods:{
+        fetchQuestion(){
+            axios.get(`/questions/${this.slug}`)
+                .then(({data})=>{
+                    this.question=data.data;
+                    this.user=this.question.user;
+                }).catch(error=>console.log(error));
+        }
     }
 }
 </script>

@@ -12252,6 +12252,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['question', 'user'],
@@ -12876,10 +12882,32 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['question', 'user'],
+  props: ['slug'],
   components: {
     ShowQuestion: _components_Question_ShowQuestion_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
     Answers: _components_Answer_Answers_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+  },
+  data: function data() {
+    return {
+      question: {},
+      user: {}
+    };
+  },
+  mounted: function mounted() {
+    this.fetchQuestion();
+  },
+  methods: {
+    fetchQuestion: function fetchQuestion() {
+      var _this = this;
+
+      axios.get("/questions/".concat(this.slug)).then(function (_ref) {
+        var data = _ref.data;
+        _this.question = data.data;
+        _this.user = _this.question.user;
+      })["catch"](function (error) {
+        return console.log(error);
+      });
+    }
   }
 });
 
@@ -65264,7 +65292,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm.count > 0
+  return _vm.count > 0 && _vm.questionID
     ? _c(
         "div",
         { staticClass: "col-md-12 mt-3" },
@@ -65654,9 +65682,31 @@ var render = function() {
     _vm._v(" "),
     _c("div", { staticClass: "media-body" }, [
       _c("div", { staticClass: "d-flex align-items-center" }, [
-        _c("h3", { staticClass: "mt-0" }, [
-          _c("a", { attrs: { href: "#" } }, [_vm._v(_vm._s(_vm.title))])
-        ]),
+        _c(
+          "h3",
+          { staticClass: "mt-0" },
+          [
+            _c(
+              "router-link",
+              {
+                attrs: {
+                  to: {
+                    name: "questions.show",
+                    params: { slug: _vm.question.slug }
+                  }
+                }
+              },
+              [
+                _vm._v(
+                  "\n                " +
+                    _vm._s(_vm.title) +
+                    "\n                "
+                )
+              ]
+            )
+          ],
+          1
+        ),
         _vm._v(" "),
         _c(
           "div",
@@ -66379,17 +66429,18 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [
-      _c("show-question", {
-        attrs: { question: _vm.question, user: _vm.user }
-      }),
-      _vm._v(" "),
-      _c("answers", { attrs: { question: _vm.question } })
-    ],
-    1
-  )
+  return _vm.question.id
+    ? _c(
+        "div",
+        { staticClass: "container" },
+        [
+          _c("show-question", {
+            attrs: { question: _vm.question, user: _vm.user }
+          })
+        ],
+        1
+      )
+    : _vm._e()
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -83145,7 +83196,9 @@ var routes = [{
 }, {
   path: '/questions/:slug',
   component: _pages_QuestionPage_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
-  name: 'questions.show'
+  name: 'questions.show',
+  props: true //this is second way of handling dynamic url, isntead of using this.$router.params.id
+
 }, {
   path: '*',
   //to return 404 page not found 

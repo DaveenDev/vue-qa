@@ -37,7 +37,8 @@ const routes=[
     {
         path: '/questions/:slug',
         component: QuestionPage,
-        name: 'questions.show'
+        name: 'questions.show',
+        props: true //this is second way of handling dynamic url, isntead of using this.$router.params.id
     },
     {
         path: '*', //to return 404 page not found 

@@ -1,6 +1,6 @@
 <template>
     
-        <div class="col-md-12 mt-3" v-cloak v-if="count>0">
+        <div class="col-md-12 mt-3" v-cloak v-if="count>0 && questionID">
                     <div class="card">
                         <div class="card-body">
                             <div class="card-title">
@@ -34,10 +34,10 @@ export default {
     components: { Answer ,NewAnswer},
     data(){
         return{
-        questionID: this.question.id,
-        count: this.question.answers_count,
-        answers: [],
-        nextUrl: null
+            questionID: this.question.id,
+            count: this.question.answers_count,
+            answers: [],
+            nextUrl: null
         }
     },
     created(){
