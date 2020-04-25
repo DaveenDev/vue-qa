@@ -6,7 +6,7 @@
             <div class="card">
                 <div class="card-header">
                     <div class="d-flex align-items-center">
-                        <h2>Ask Question</h2>
+                        <h2>Edit Question</h2>
                         <div class="ml-auto">
                             <router-link :to="{name: 'questions'}" class="btn btn-outline-secondary">Back</router-link>
                         </div>
@@ -16,7 +16,7 @@
                 </div>
 
                 <div class="card-body">
-                    <question-form @submitted="create" :editMode="false"></question-form>
+                    <question-form @submitted="update" :editMode="true"></question-form>
                 </div>
             </div>
         </div>
@@ -33,12 +33,11 @@ export default {
         QuestionForm
     },
     methods: {
-        create(data){
-            axios.post('/questions', data)
+        update(data){
+            axios.put('/questions/' + this.$route.params.id, data)
                 .then(res=>{
-                    this.$router.push({name: 'questions'});
                     this.$toast.success(res.data.message,'Success',{timeout:3000, position: 'bottomCenter'});
-
+                    this.$router.push({name: 'questions'});
                     //console.log(res.data);
                 }).catch(({response})=>{
                     EventBus.$emit('error',response.data.errors);
@@ -46,6 +45,7 @@ export default {
                     //console.log(response.data.errors);
                 })
         }
+    
     }    
 }
 </script>

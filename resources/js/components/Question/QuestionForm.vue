@@ -19,7 +19,7 @@
                         
                     </div>
                     <div class="form-group">
-                        <button type="Submit" class="btn btn-outline-primary btn-lg" >Submit</button>
+                        <button type="Submit" class="btn btn-outline-primary btn-lg" >{{buttonText}}</button>
                     </div>
 
                 </form>
@@ -32,6 +32,12 @@ import EventBus from '../../eventbus';
 import MEditor from '../MEditor.vue';
 
 export default {
+    props: {
+        editMode: {
+            type: Boolean,
+            default: false
+        }
+    },
     components: {MEditor},
     data(){
         return {
@@ -47,10 +53,17 @@ export default {
         EventBus.$on('error',errors=>{
             this.errors=errors
         });
+
+        if (this.editMode){
+            this.fetchQuestion();
+        }
     },
     computed: {
         isInvalid(){
             return  this.title.length<8 && this.body.length<10;
+        },
+        buttonText(){
+            return this.editMode ? 'Update Question' : 'Ask Question'
         }
     },
     methods:{
@@ -65,6 +78,15 @@ export default {
                 title: this.title,
                 body: this.body
             });
+        },
+        fetchQuestion(){ //get question to update on editmode
+            axios.get(`/questions/${this.$route.params.id}`)
+                .then(({data})=>{
+                    this.title=data.title,
+                    this.body=data.body
+                }).catch(error => {
+                    this.$toast.warning(error.data.message,'Warning',{timeout:3000, position: 'bottomCenter'});
+                });
         }
     }
 }

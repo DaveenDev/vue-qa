@@ -1,6 +1,7 @@
 import QuestionsIndex from '../pages/QuestionsIndex.vue';
 import QuestionPage from '../pages/QuestionPage.vue';
 import NewQuestion from '../pages/NewQuestion.vue';
+import EditQuestion from '../pages/EditQuestion.vue';
 import MyPostPage from '../pages/MyPostPage.vue';
 import NotFoundPage from '../pages/NotFoundPage.vue';
 
@@ -19,6 +20,16 @@ const routes=[
         path: '/questions/create',
         component: NewQuestion,
         name: 'questions.create'
+    },
+    {
+        path: '/questions/:id/edit',
+        component: EditQuestion,
+        name: 'questions.edit'
+    },
+    {
+        path: '/questions/:id/delete',
+        component: '',
+        name: 'questions.delete'
     },
     {
         path: '/my-posts',

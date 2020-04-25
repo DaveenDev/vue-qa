@@ -17,13 +17,21 @@
             <div class="d-flex align-items-center">
                 <h3 class="mt-0"><a href="#">{{title}}</a></h3>
                 <div class="ml-auto">
-                         <a v-if="authorize('modify',question)"
-                                    class="btn btn-sm btn-outline-info"
-                                    @click.prevent="edit()"
-                                    > Edit</a>        
-                                <button v-if="authorize('deleteQuestion',question)"
-                                        type="button" class="btn btn-sm btn-outline-danger" 
-                                        @click.prevent="destroy()">Delete</button>
+                    
+                        <router-link 
+                            :to="{name: 'questions.edit', params: {id: question.id}}"    
+                            v-if="authorize('modify', question)"                        
+                            class="btn btn-sm btn-outline-info">
+                            edit
+                        </router-link>
+                    
+                        <router-link
+                            :to="{name: 'questions.delete', params: {id: question.id}}"
+                            v-if="authorize('deleteQuestion', question)" 
+                            class="btn btn-sm btn-outline-info">
+                            delete
+                        </router-link>
+                    
                 </div>
             </div>
             <p class="lead">
