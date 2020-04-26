@@ -26,7 +26,7 @@
 </template>
 <script>
 import QuestionForm from '../components/Question/QuestionForm.vue';
-import EventBus from '../eventbus'
+import EventBus from '../eventbus';
 
 export default {
     components: {
@@ -36,8 +36,10 @@ export default {
         update(data){
             axios.put('/questions/' + this.$route.params.id, data)
                 .then(res=>{
+                    
                     this.$toast.success(res.data.message,'Success',{timeout:3000, position: 'bottomCenter'});
                     this.$router.push({name: 'questions'});
+                    EventBus.$emit('updated',res.data.body_html);
                     //console.log(res.data);
                 }).catch(({response})=>{
                     EventBus.$emit('error',response.data.errors);

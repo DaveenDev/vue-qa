@@ -11865,6 +11865,9 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
+//
+//
+//
 
 
 
@@ -11900,10 +11903,10 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       axios.get(endpoint).then(function (res) {
         var _this2$answers;
 
-        //... means merging data array with data, data3.push(...data1)
-        (_this2$answers = _this2.answers).push.apply(_this2$answers, _toConsumableArray(res.data.data));
+        (_this2$answers = _this2.answers).push.apply(_this2$answers, _toConsumableArray(res.data.data)); //... means merging data array with data, data3.push(...data1)
 
-        _this2.nextUrl = res.data.next_page_url;
+
+        _this2.nextUrl = res.data.links.next; //console.log(this.answers);
       });
     },
     remove: function remove(index) {
@@ -12547,7 +12550,7 @@ __webpack_require__.r(__webpack_exports__);
       //send to mixins
       this.body = this.beforeEditCache;
     },
-    payload: function payload() {
+    updatePayload: function updatePayload() {
       //send to mixins
       return {
         title: this.title,
@@ -12770,8 +12773,9 @@ __webpack_require__.r(__webpack_exports__);
 
         _this.$router.push({
           name: 'questions'
-        }); //console.log(res.data);
+        });
 
+        _eventbus__WEBPACK_IMPORTED_MODULE_1__["default"].$emit('updated', res.data.body_html); //console.log(res.data);
       })["catch"](function (_ref) {
         var response = _ref.response;
         _eventbus__WEBPACK_IMPORTED_MODULE_1__["default"].$emit('error', response.data.errors);
@@ -65292,7 +65296,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm.count > 0 && _vm.questionID
+  return _vm.count > 0
     ? _c(
         "div",
         { staticClass: "col-md-12 mt-3" },
@@ -66436,7 +66440,9 @@ var render = function() {
         [
           _c("show-question", {
             attrs: { question: _vm.question, user: _vm.user }
-          })
+          }),
+          _vm._v(" "),
+          _c("answers", { attrs: { question: _vm.question } })
         ],
         1
       )
@@ -82712,7 +82718,10 @@ __webpack_require__.r(__webpack_exports__);
           position: 'bottomCenter'
         });
 
-        _components_Answer_answer_events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('editMode', _this.editing);
+        console.log(_this.bodyHtml); //EventBus.$emit('updated',{
+        //   editMode: this.editing, 
+        //   body_html: res.data.body_html
+        //});
       })["catch"](function (err) {
         //console.log(err);
         _this.$toast.warning(err.response.data.message, 'Warning', {
@@ -82721,7 +82730,32 @@ __webpack_require__.r(__webpack_exports__);
         });
       });
     },
-    payload: function payload() {}
+    updatePayload: function updatePayload() {},
+    destroy: function destroy() {
+      var _this2 = this;
+
+      this.$toast.question('Are you sure about that?', 'Confirm', {
+        timeout: 20000,
+        close: false,
+        overlay: true,
+        displayMode: 'once',
+        id: 'question',
+        zindex: 999,
+        position: 'center',
+        buttons: [['<button><b>YES</b></button>', function (instance, toast) {
+          _this2["delete"]();
+
+          instance.hide({
+            transitionOut: 'fadeOut'
+          }, toast, 'button');
+        }, true], ['<button>NO</button>', function (instance, toast) {
+          instance.hide({
+            transitionOut: 'fadeOut'
+          }, toast, 'button');
+        }]]
+      });
+    },
+    "delete": function _delete() {}
   }
 });
 

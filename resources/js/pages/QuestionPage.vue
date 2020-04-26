@@ -1,7 +1,7 @@
 <template>
     <div class="container" v-if="question.id">
         <show-question :question="question" :user="user"></show-question>
-        <!--answers :question="question"></answers-->
+        <answers :question="question"></answers>
     </div>
 </template>
 

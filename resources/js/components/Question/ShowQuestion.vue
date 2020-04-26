@@ -76,6 +76,7 @@
 import functions from '../../mixins/functions';
 import MEditor from '../../components/MEditor.vue';
 
+
 export default {
     props: ['question','user'],
     mixins: [functions],
@@ -86,7 +87,7 @@ export default {
         return {
             title: this.question.title,
             body: this.question.body,
-            body_html: this.question.body_html,
+            body_html:this.question.body_html,
             beforeEditCache: {},
             id: this.question.id
         }
@@ -97,7 +98,8 @@ export default {
         },
         endpoint() {
             return `/questions/${this.id}`;
-        }
+        },
+        
     },
     methods: {
         setEditCache(){ //send to mixins
@@ -107,7 +109,7 @@ export default {
         restoreFromCache(){ //send to mixins
             this.body=this.beforeEditCache;
         },
-        payload(){ //send to mixins
+        updatePayload(){ //send to mixins
             return {
                 title: this.title,
                 body: this.body,
@@ -126,5 +128,6 @@ export default {
             
         }
     }
+    
 }
 </script>
