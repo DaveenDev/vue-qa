@@ -19,6 +19,9 @@ export default {
             id: this.question.id
         }
     },
+    mounted(){
+        console.log(this.question);
+    },
     computed: {
         classes(){
             return ['favorite','mt-2',

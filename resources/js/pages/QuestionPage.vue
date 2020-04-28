@@ -1,19 +1,19 @@
 <template>
     <div class="container" v-if="question.id">
-        <show-question :question="question" :user="user"></show-question>
+        <question :question="question" :user="user"></question>
         <answers :question="question"></answers>
     </div>
 </template>
 
 <script>
-import ShowQuestion from '../components/Question/ShowQuestion.vue'
+import Question from '../components/Question/Question.vue'
 import Answers from '../components/Answer/Answers.vue'
 import gEventBus from '../eventbus';
 
 export default {
     props: ['slug'],
     components: {
-        ShowQuestion,
+        Question,
         Answers
     },
     data(){

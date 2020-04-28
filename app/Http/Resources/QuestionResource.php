@@ -20,6 +20,7 @@ class QuestionResource extends JsonResource
         'slug'=>$this->id . '-' . $this->slug, //'slug'=>$this->id . '-' . $this->slug,
         'votes_count'=>$this->votes_count,
         'answers_count'=>$this->answers_count,
+        'favorites_count'=>$this->favorites_count,
         'views'=>$this->views,
         'status'=>$this->status,
         'excerpt'=>$this->excerpt,

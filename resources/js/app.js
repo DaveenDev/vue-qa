@@ -31,7 +31,7 @@ import router from './router';
 
 Vue.component('user-info', require('./components/UserInfo.vue').default);
 Vue.component('vote', require('./components/Vote.vue').default);
-Vue.component('question', require('./pages/Question.vue').default);
+Vue.component('question-page', require('./pages/QuestionPage.vue').default);
 
 
 
