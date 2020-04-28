@@ -13,9 +13,9 @@
                                 @deleted="remove(index)">
                             </answer>
 
-                            <div class="text-center mt-3">
-                                <button v-if="nextUrl" 
-                                    @click.prevent="fetch(nextUrl)"
+                            <div class="text-center mt-3 " v-if="theNextUrl">
+                                <button 
+                                    @click.prevent="fetch(theNextUrl)"
                                     class="btn btn-outline-secondary">More...</button>        
                             </div>
                         </div>
@@ -41,7 +41,8 @@ export default {
             questionID: this.question.id,
             count: this.question.answers_count,
             answers: [],
-            nextUrl: null
+            nextUrl: null,
+            excludeAnswers: []
         }
     },
     mounted(){
@@ -71,6 +72,7 @@ export default {
         },
         newAnswerAdded(answer){
             this.answers.push(answer);
+            this.excludeAnswers.push(answer);
             this.count++;
              
                 gEventBus.$emit('answers-count-changed', this.count);
@@ -80,6 +82,12 @@ export default {
     computed: {
         title(){
             return  this.count + " " + (this.count > 1? 'Answers' : 'Answer');
+        },
+        theNextUrl(){
+            if(this.nextUrl && this.excludeAnswers.length){
+                return this.nextUrl + this.excludeAnswers.map(a=>'&excludes[]=' + a.id).join('');
+            }
+            return this.nextUrl;
         }
     }
     

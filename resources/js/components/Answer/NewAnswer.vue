@@ -33,7 +33,7 @@ export default{
         }
     },
     created(){  
-        EventBus.$on('editMode', editing =>{
+        aEventBus.$on('editMode', editing =>{
             this.editing=editing;
         });
     },

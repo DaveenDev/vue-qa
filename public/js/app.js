@@ -11884,7 +11884,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       questionID: this.question.id,
       count: this.question.answers_count,
       answers: [],
-      nextUrl: null
+      nextUrl: null,
+      excludeAnswers: []
     };
   },
   mounted: function mounted() {
@@ -11916,6 +11917,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     },
     newAnswerAdded: function newAnswerAdded(answer) {
       this.answers.push(answer);
+      this.excludeAnswers.push(answer);
       this.count++;
       _eventbus__WEBPACK_IMPORTED_MODULE_3__["default"].$emit('answers-count-changed', this.count);
     }
@@ -11923,6 +11925,15 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
   computed: {
     title: function title() {
       return this.count + " " + (this.count > 1 ? 'Answers' : 'Answer');
+    },
+    theNextUrl: function theNextUrl() {
+      if (this.nextUrl && this.excludeAnswers.length) {
+        return this.nextUrl + this.excludeAnswers.map(function (a) {
+          return '&excludes[]=' + a.id;
+        }).join('');
+      }
+
+      return this.nextUrl;
     }
   }
 });
@@ -11974,7 +11985,7 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var _this = this;
 
-    EventBus.$on('editMode', function (editing) {
+    _answer_events__WEBPACK_IMPORTED_MODULE_0__["default"].$on('editMode', function (editing) {
       _this.editing = editing;
     });
   },
@@ -65334,23 +65345,23 @@ var render = function() {
                   })
                 }),
                 _vm._v(" "),
-                _c("div", { staticClass: "text-center mt-3" }, [
-                  _vm.nextUrl
-                    ? _c(
+                _vm.theNextUrl
+                  ? _c("div", { staticClass: "text-center mt-3 " }, [
+                      _c(
                         "button",
                         {
                           staticClass: "btn btn-outline-secondary",
                           on: {
                             click: function($event) {
                               $event.preventDefault()
-                              return _vm.fetch(_vm.nextUrl)
+                              return _vm.fetch(_vm.theNextUrl)
                             }
                           }
                         },
                         [_vm._v("More...")]
                       )
-                    : _vm._e()
-                ])
+                    ])
+                  : _vm._e()
               ],
               2
             )
