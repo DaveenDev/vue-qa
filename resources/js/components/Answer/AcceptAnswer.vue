@@ -29,7 +29,9 @@ export default {
             canAccept(){
                 //console.log('can accept ' + this.authorize('accept',this.answer));
                 //!this.authorize('modify',this.answer);  calls the policy validation if the answer is owned by the questioner
-                return this.authorize('accept',this.answer) && !this.authorize('modify',this.answer); 
+                
+                return (this.authorize('accept',this.answer) && !this.authorize('modify',this.answer)); 
+                
 
             },
             accepted(){

@@ -1,5 +1,5 @@
 import QuestionsIndex from '../pages/QuestionsIndex.vue';
-import QuestionPage from '../pages/QuestionPage.vue';
+import Question from '../pages/Question.vue';
 import NewQuestion from '../pages/NewQuestion.vue';
 import EditQuestion from '../pages/EditQuestion.vue';
 import MyPostPage from '../pages/MyPostPage.vue';
@@ -36,7 +36,7 @@ const routes=[
     },
     {
         path: '/questions/:slug',
-        component: QuestionPage,
+        component: Question,
         name: 'questions.show',
         props: true //this is second way of handling dynamic url, isntead of using this.$router.params.id
     },

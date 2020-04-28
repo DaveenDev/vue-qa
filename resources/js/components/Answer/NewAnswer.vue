@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import EventBus from './answer-events';
+import aEventBus from './answer-events';
 
 export default{
     props: ['questionID'],
@@ -49,9 +49,10 @@ export default{
         postAnswer(){
             axios.post(`/questions/${this.questionID}/answers`,{body: this.body})
                  .then(({data})=>{
+                     aEventBus.$emit('postedAnswer',data.answer);   
                      this.$toast.success(data.message,"Success",{timeout: 3000, position: 'bottomCenter'});
                      this.body='';
-                     EventBus.$emit('answerPosted',data.answer);
+                                       
                 });
             
         }

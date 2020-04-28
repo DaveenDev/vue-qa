@@ -8,6 +8,8 @@
 <script>
 import ShowQuestion from '../components/Question/ShowQuestion.vue'
 import Answers from '../components/Answer/Answers.vue'
+import gEventBus from '../eventbus';
+
 export default {
     props: ['slug'],
     components: {
@@ -22,6 +24,10 @@ export default {
     },
     mounted(){
         this.fetchQuestion();
+        gEventBus.$on('answers-count-changed',(count)=>{
+            this.question.answers_count=count;
+        });
+   
     },
     methods:{
         fetchQuestion(){

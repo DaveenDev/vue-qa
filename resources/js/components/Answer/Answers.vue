@@ -30,7 +30,8 @@
 <script>
 import Answer from './Answer.vue';
 import NewAnswer from './NewAnswer.vue';
-import EventBus from './answer-events';
+import aEventBus from './answer-events';
+import gEventBus from '../../eventbus';
 
 export default {
     props: ['question'],
@@ -43,17 +44,13 @@ export default {
             nextUrl: null
         }
     },
-    created(){
+    mounted(){
         this.fetch(`/questions/${this.questionID}/answers`);
-        EventBus.$on('postedAnswer', answer=>{
-            this.answers.push(answer);
-            this.count++;
+
+        aEventBus.$on('postedAnswer', answer=>{
+            this.newAnswerAdded(answer);
         });
         
-        EventBus.$on('editMode',()=>{
-
-        });
-
     },
     methods:{
         fetch(endpoint){
@@ -63,15 +60,21 @@ export default {
                     this.nextUrl=res.data.links.next;
                     //console.log(this.answers);
                 });
-        },    
+        },  
+        
         remove(index){
             this.answers.splice(index,1); //remove the deleted index
             this.count--;
-          
+            
+            gEventBus.$emit('answers-count-changed',this.count);
+            
         },
         newAnswerAdded(answer){
             this.answers.push(answer);
             this.count++;
+             
+                gEventBus.$emit('answers-count-changed', this.count);
+            
         }
     },
     computed: {
@@ -79,5 +82,6 @@ export default {
             return  this.count + " " + (this.count > 1? 'Answers' : 'Answer');
         }
     }
+    
 }
 </script>

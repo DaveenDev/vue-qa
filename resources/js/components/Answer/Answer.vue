@@ -71,11 +71,15 @@ export default {
             }
         },     
         delete(){ //send to mixins
+        
            axios.delete(this.endpoint)
                  .then(res=>{    
-                    this.$toast.success(data.message,"Success",{timeout:2000,position:'bottomCenter'});         
+                    this.$toast.success(res.data.message,"Success",{timeout:2000,position:'bottomCenter'});         
                     this.$emit('deleted');
+                   
+                    
            });
+
         }
     },
     computed: {

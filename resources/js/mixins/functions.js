@@ -7,6 +7,9 @@ export default {
         }
     },
     methods: {
+        add(answer){
+
+        },
         edit(){
             this.setEditCache();
             this.editing=true;
@@ -41,6 +44,7 @@ export default {
         },
         updatePayload(){},
         destroy(){
+            
             this.$toast.question('Are you sure about that?','Confirm',{
                 timeout: 20000,
                 close: false,
@@ -51,7 +55,7 @@ export default {
                 position: 'center',
                 buttons: [
                     ['<button><b>YES</b></button>', (instance, toast) =>{
-                        this.delete()
+                        this.delete();
                                                   
                         instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
             

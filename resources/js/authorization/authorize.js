@@ -11,7 +11,6 @@ export default{
             //check the arugments that policy is string and model is object
             if(typeof policy==='string' && typeof model==='object'){
                 const user=window.Auth.user;
-                
                 return policies[policy](user,model);
             }
         };

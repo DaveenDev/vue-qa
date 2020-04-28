@@ -119,9 +119,9 @@ export default {
                        axios.delete(`/questions/${this.id}`)
                             .then(({data})=>{                
                           
-                                this.$toast.success(data.message,"Success",{timeout:2000,position:'bottomCenter'});
+                                this.$toast.success(data.message,"Success",{timeout:1500,position:'bottomCenter'});
                                 setTimeout(()=>{
-                                    window.location.href="/questions";
+                                    this.$router.push({name:'questions'});
                                 },2000);
                                 
                             });       
