@@ -15,7 +15,7 @@
                 </div>
 
                 <div class="card-body">
-                    <spinner v-if="$root.loading"></spinner>
+                    <spinner v-if="$root.loading" :small="false" ></spinner>
                     <div v-else-if="questions.length">
                         <question-excerpt 
                             v-for="(question,index) in questions" :key="question.id" 

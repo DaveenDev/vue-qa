@@ -27,7 +27,7 @@ const routes=[
         name: 'questions.edit'
     },
     {
-        path: '/my-posts',
+        path: '/my-post',
         component: MyPostPage,
         name: 'my-posts',
         meta: {

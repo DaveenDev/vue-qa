@@ -70,6 +70,7 @@ export default {
             return str + ( count>1?'s': '');
         },
         destroy(){
+            this.$root.disableInterceptor();
             this.$toast.question('Are you sure about that?','Confirm',{
                 timeout: 20000,
                 close: false,

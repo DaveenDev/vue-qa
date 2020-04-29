@@ -128,7 +128,7 @@ class User extends Authenticatable
             if($type!=='answers'){
                 $qPosts=$this->questions()->get();
                 //merge answers and questions
-                $posts->merge($qPosts);
+               $posts= $posts->merge($qPosts);
             }
         }
 

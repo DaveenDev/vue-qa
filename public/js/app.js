@@ -12181,7 +12181,9 @@ __webpack_require__.r(__webpack_exports__);
   props: ['meta', 'links'],
   computed: {
     pagesInfo: function pagesInfo() {
-      return "Page ".concat(this.meta.current_page, " of ").concat(this.meta.last_page);
+      var currentPage = this.meta.current_page || 1,
+          lastPage = this.meta.last_page || 1;
+      return "Page ".concat(currentPage, " of ").concat(lastPage);
     },
     isFirst: function isFirst() {
       return this.meta.current_page === 1;
@@ -12449,6 +12451,7 @@ __webpack_require__.r(__webpack_exports__);
     destroy: function destroy() {
       var _this = this;
 
+      this.$root.disableInterceptor();
       this.$toast.question('Are you sure about that?', 'Confirm', {
         timeout: 20000,
         close: false,
@@ -66944,7 +66947,7 @@ var render = function() {
             { staticClass: "card-body" },
             [
               _vm.$root.loading
-                ? _c("spinner")
+                ? _c("spinner", { attrs: { small: false } })
                 : _vm.questions.length
                 ? _c(
                     "div",
@@ -82134,26 +82137,35 @@ var app = new Vue({
   el: '#app',
   router: _router__WEBPACK_IMPORTED_MODULE_3__["default"],
   data: {
-    loading: false
+    loading: false,
+    interceptor: null
   },
   created: function created() {
-    var _this = this;
+    this.enableInterceptor();
+  },
+  methods: {
+    enableInterceptor: function enableInterceptor() {
+      var _this = this;
 
-    axios.interceptors.request.use(function (config) {
-      //code is executed before all axios request calls
-      _this.loading = true;
-      return config;
-    }, function (error) {
-      _this.loading = false;
-      return Promise.reject(error);
-    });
-    axios.interceptors.response.use(function (response) {
-      _this.loading = false;
-      return response;
-    }, function (error) {
-      _this.loading = false;
-      return Promise.reject(error);
-    });
+      axios.interceptors.request.use(function (config) {
+        //code is executed before all axios request calls
+        _this.loading = true;
+        return config;
+      }, function (error) {
+        _this.loading = false;
+        return Promise.reject(error);
+      });
+      axios.interceptors.response.use(function (response) {
+        _this.loading = false;
+        return response;
+      }, function (error) {
+        _this.loading = false;
+        return Promise.reject(error);
+      });
+    },
+    disableInterceptor: function disableInterceptor() {
+      axios.interceptors.request.eject(this.interceptor);
+    }
   }
 });
 
@@ -83820,7 +83832,7 @@ var routes = [{
   component: _pages_EditQuestion_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
   name: 'questions.edit'
 }, {
-  path: '/my-posts',
+  path: '/my-post',
   component: _pages_MyPostPage_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
   name: 'my-posts',
   meta: {
