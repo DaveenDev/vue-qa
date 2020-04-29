@@ -31,7 +31,7 @@ class QuestionsController extends Controller
     public function store(AskQuestionRequest $request)
     {
         $newquestion=$request->user()->questions()->create($request->only('title','body')); //$request->all() if you want all columns to add
-  
+        if(env('APP_ENV')=='local') sleep(2); //add  delay to the request
         return response()->json([
             'message'=>'Your question has been submitted',
             'question'=>new QuestionResource($newquestion)

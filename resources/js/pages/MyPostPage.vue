@@ -18,7 +18,7 @@
                         </ul>
                     </div>
                     <div class="card-body tab-content">
-                        <spinner v-if="loading"></spinner>
+                        <spinner v-if="$root.loading"></spinner>
                         <ul class="list-group list-group-flush" v-else-if="posts.length">
                             <li class="list-group-item" v-for="(post,index) in posts" :key="index">
                                 <div class="row">
@@ -50,8 +50,8 @@
 export default {
     data() {
         return {
-            posts: [],
-            loading:false
+            posts: []
+            
         }
     }, 
     mounted(){
@@ -64,11 +64,9 @@ export default {
     },
     methods: {
         fetchPosts(){
-            this.loading=true;
             axios.get('/my-posts',{params: this.$route.query})
                 .then(({data})=>{
                     this.posts=data.data;
-                    this.loading=false;
                 }).catch(err=>console.log(err));
         }
     },

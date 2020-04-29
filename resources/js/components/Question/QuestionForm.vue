@@ -19,7 +19,9 @@
                         
                     </div>
                     <div class="form-group">
-                        <button type="Submit" class="btn btn-outline-primary btn-lg" >{{buttonText}}</button>
+                        <button type="Submit" class="btn btn-outline-primary btn-lg" >
+                            <spinner :small="true" v-if="$root.loading"></spinner>
+                            {{buttonText}}</button>
                     </div>
 
                 </form>

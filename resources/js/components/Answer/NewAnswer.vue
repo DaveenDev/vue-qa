@@ -12,7 +12,9 @@
                        </div>
                        <div class="form-group">
                            <button class="btn btn-lg btn-outline-primary"
-                                    :disabled="isInvalid" type="submit">Submit</button>
+                                    :disabled="isInvalid" type="submit">
+                                    <spinner :small="true" v-if="$root.loading" :min-width="59.22"></spinner>
+                                    <span v-else>Submit</span></button>
                        </div>
                    </form>
                 </div>

@@ -17,6 +17,7 @@ import Authorization from './authorization/authorize';
 Vue.use(Authorization);
 
 import router from './router';
+import Axios from 'axios';
 
 /**
  * The following block of code may be used to automatically register your
@@ -44,6 +45,27 @@ Vue.component('question-page', require('./pages/QuestionPage.vue').default);
 
 const app = new Vue({
     el: '#app',
-    router
+    router,
+    data:{
+        loading: false
+    },
+    created(){
+        axios.interceptors.request.use((config)=>{
+            //code is executed before all axios request calls
+            this.loading=true;
+            return config;
+        }, (error)=>{
+            this.loading=false;
+            return Promise.reject(error);
+        });
+
+        axios.interceptors.response.use((response)=>{
+            this.loading=false;
+            return response;
+        },(error)=>{
+            this.loading=false;
+            return Promise.reject(error);
+        });
+    }
 });
 

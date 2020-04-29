@@ -7,8 +7,8 @@
                                 <h3>{{title}} </h3> 
                             </div>
                             <hr>
-                            <spinner v-if="loading"></spinner>
-                            <answer v-else 
+                            
+                            <answer  
                                 v-for="(answer,index) in answers" :key="answer.id"
                                 :answer="answer"
                                 @deleted="remove(index)">
@@ -43,8 +43,8 @@ export default {
             count: this.question.answers_count,
             answers: [],
             nextUrl: null,
-            excludeAnswers: [],
-            loading: false
+            excludeAnswers: []
+            
         }
     },
     mounted(){
@@ -57,15 +57,14 @@ export default {
     },
     methods:{
         fetch(endpoint){
-            this.loading=true;
+            
             axios.get(endpoint)
                 .then(res=>{
                     this.answers.push(...res.data.data); //... means merging data array with data, data3.push(...data1)
                     this.nextUrl=res.data.links.next;
                     //console.log(this.answers);
-                    this.loading=false;
                 }).catch(err=>{
-                    this.loading=false;
+                    
                 });
         },  
         

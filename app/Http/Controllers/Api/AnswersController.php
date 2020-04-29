@@ -41,7 +41,7 @@ class AnswersController extends Controller
             ])
             + ['user_id'=>\Auth::id()]);
 
-       
+            if(env('APP_ENV')=='local') sleep(2); //add  delay to the request
             return response()->json([
                 'message'=>'Your answer has been submitted',
                 'answer'=>new AnswerResource($answer->load('user'))
