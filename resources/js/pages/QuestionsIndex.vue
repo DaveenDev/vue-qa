@@ -2,7 +2,7 @@
     <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-11">
-            <div class="card">
+            <div class="card" >
                 <div class="card-header">
                     <div class="d-flex align-items-center">
                         <h2>All Questions</h2>
@@ -15,7 +15,8 @@
                 </div>
 
                 <div class="card-body">
-                    <div v-if="questions.length">
+                    <spinner v-if="loading"></spinner>
+                    <div v-else-if="questions.length">
                         <question-excerpt 
                             v-for="(question,index) in questions" :key="question.id" 
                             :question="question" 
@@ -51,20 +52,24 @@ export default {
         return {
             questions: [],
             meta: {},
-            links: {}
+            links: {},
+            loading: false
         }
     },
     mounted(){
+        
         this.fetchQuestions();
         
     },
     methods:{
         fetchQuestions(){
+            this.loading=true;
             axios.get('/questions',{params: this.$route.query})
                 .then(({data})=>{
                     this.questions=data.data
                     this.meta=data.meta;
                     this.links=data.links;
+                    this.loading=false;
                 });
         },
         remove(index){

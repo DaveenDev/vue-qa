@@ -16,6 +16,7 @@ class UserPostsController extends Controller
      */
     public function __invoke(Request $request)
     {
+        if (env('APP_ENV')=='local') sleep(1); //add delay when querying on local development
         return response()->json([
             'data'=>$request->user()->posts()
         ]);
